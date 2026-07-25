@@ -1,531 +1,968 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    
-    <!-- 📱 TELEFON ANA EKRAN VE OTOMATİK KISAYOL İKON KODLARI -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Quantum Lab Core">
-    <!-- iPhone için otomatik turuncu beher kısayol ikonu bağlantısı -->
-    <link rel="apple-touch-icon" href="logo_shortcut.png">
-    <!-- Android için otomatik turuncu beher kısayol ikonu bağlantısı -->
-    <link rel="icon" type="image/png" href="logo_shortcut.png">
-    
-    <title>QUANTUM LAB CORE</title>
-    <!-- Slogan fontu için Great Vibes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
-        
-        body {
-            background-color: #05070a;
-            color: #e0e6ed;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-        
-        /* 🌌 GİRİŞ EKRANI */
-        #splash-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #05070a;
-            background-image: url('image_5.png'); 
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-            z-index: 999999;
-            opacity: 1;
-            transition: opacity 0.4s ease;
-            
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        /* MERKEZİ DİKEY YERLEŞİM BLOKU */
-        .brand-container-block {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            gap: 16px; 
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-        /* 👑 1. EN ÜSTTEKİ MEDENİ GÖKALP YAZAN LOGO GÖRSELİ (image_13.png) */
-        .teacher-brand-logo {
-            width: 175px; 
-            height: auto;
-            object-fit: contain;
-            filter: drop-shadow(0px 4px 12px rgba(0,0,0,0.8));
-            margin-bottom: 2px;
-        }
+<title>Kimya Laboratuvarı · Sanal Tepkime Simülatörü</title>
+<meta name="description" content="Asit, baz, metal ve belirteçlerle sanal kimya laboratuvarı. Tepkime denklemi, pH hesabı ve gözlem raporu.">
 
-        /* 🏛️ 2. HEMEN ALTINDAKİ QUANTUM LAB CORE YAZISI */
-        .main-title {
-            color: #ffffff;
-            font-size: 14pt;
-            font-weight: 700;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.95);
-            margin-bottom: 12px;
-        }
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kimya Lab">
+<meta name="theme-color" content="#05070a">
+<link rel="apple-touch-icon" href="logo_shortcut.png">
+<link rel="icon" type="image/png" href="logo_shortcut.png">
 
-        /* 🎯 3. ORTADA YUVARLAK OLAN GÖRSEL (image_11.png) */
-        .user-logo-container {
-            width: 160px; 
-            height: 160px;
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.95);
-            border-radius: 50%; 
-            overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            background: transparent;
-            margin-bottom: 8px;
-        }
-        .user-logo-container img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
+<style>
+:root{
+  --zemin:#05070a;
+  --panel:#0e1117;
+  --kart:#151a24;
+  --cizgi:rgba(255,255,255,.07);
+  --metin:#e0e6ed;
+  --soluk:#8f9cae;
+  --camgobegi:#00ffcc;
+  --mavi:#00a2ff;
+  --ates:#ff5533;
+  --sari:#ffcc33;
+  --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+button,select,.rozet{-webkit-user-select:none;user-select:none}
+html,body{height:100%}
+body{
+  background:var(--zemin);color:var(--metin);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  display:flex;flex-direction:column;overflow:hidden;
+  padding-bottom:env(safe-area-inset-bottom);
+  -webkit-text-size-adjust:100%;
+}
 
-        /* 💎 4. ONUN ALTINDAKİ PREMIUM NEON SLOGAN */
-        .premium-slogan-one-line {
-            font-family: 'Great Vibes', cursive;
-            font-size: 5.6vw;
-            max-font-size: 23pt;
-            font-weight: normal;
-            white-space: nowrap; 
-            display: block;
-            
-            background: linear-gradient(to right, 
-                #BCEEFF 0%,   
-                #F7EAD7 50%,  
-                #FFD59A 100%  
-            );
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            
-            filter: drop-shadow(-8px 2px 5px rgba(0, 162, 255, 0.75)) 
-                    drop-shadow(8px 2px 5px rgba(255, 102, 0, 0.75))
-                    drop-shadow(0px 4px 10px rgba(0,0,0,0.9));
-            padding: 2px 10px;
-            margin-bottom: 40px; 
-        }
-        @media(min-width: 600px) {
-            .premium-slogan-one-line { font-size: 21pt; }
-        }
+/* ---------- giriş ekranı ---------- */
+#giris{
+  position:fixed;inset:0;z-index:9999;
+  background:
+    radial-gradient(circle at 50% 32%, rgba(0,162,255,.20) 0%, transparent 60%),
+    radial-gradient(circle at 50% 85%, rgba(255,85,51,.14) 0%, transparent 55%),
+    var(--zemin);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:28px 22px;transition:opacity .45s ease;
+}
+#giris.kapanan{opacity:0;pointer-events:none}
+#giris .marka-logo{width:150px;height:auto;filter:drop-shadow(0 6px 18px rgba(0,0,0,.85));margin-bottom:14px}
+#giris .marka-logo[data-yok]{display:none}
+#giris h1{
+  font-size:15px;font-weight:800;letter-spacing:4.5px;text-transform:uppercase;
+  color:#fff;margin-bottom:6px;
+}
+#giris .alt{font-size:12.5px;color:var(--soluk);letter-spacing:.4px;margin-bottom:24px}
+#giris .halka{
+  width:150px;height:150px;border-radius:50%;overflow:hidden;
+  border:2px solid rgba(255,255,255,.18);box-shadow:0 14px 40px rgba(0,0,0,.9);
+  margin-bottom:22px;background:rgba(255,255,255,.03);
+}
+#giris .halka img{width:100%;height:100%;object-fit:cover;display:block}
+#giris .slogan{
+  font-size:13px;color:var(--camgobegi);letter-spacing:.5px;
+  margin-bottom:30px;max-width:320px;line-height:1.5;
+}
+.btn-baslat{
+  background:rgba(10,15,25,.85);border:1.5px solid rgba(0,162,255,.6);color:#bceeff;
+  padding:16px 46px;font-size:12px;font-weight:800;letter-spacing:2.5px;
+  border-radius:26px;cursor:pointer;
+  box-shadow:0 10px 30px rgba(0,162,255,.22), inset 0 1px 1px rgba(255,255,255,.14);
+  transition:transform .15s, background .15s;
+}
+.btn-baslat:active{transform:scale(.96);background:rgba(0,162,255,.28)}
+.btn-baslat:focus-visible{outline:2px solid var(--camgobegi);outline-offset:3px}
 
-        /* 🔘 5. EN ALTTA VE YATAYDA TAM ORTALANAN SİSTEME GİRİŞ BUTONU */
-        .btn-bottom-center-positioner {
-            width: auto;
-            display: flex;
-            justify-content: center;
-        }
+/* ---------- göstergeler ---------- */
+.gosterge-satiri{display:flex;gap:8px;padding:12px 12px 6px;background:var(--panel)}
+.gosterge{
+  flex:1;background:rgba(15,19,26,.85);border:1px solid var(--cizgi);
+  border-radius:12px;padding:9px 6px;text-align:center;
+  font-size:9.5px;font-weight:700;color:var(--soluk);letter-spacing:.7px;text-transform:uppercase;
+}
+.gosterge span{display:block;font-family:var(--mono);font-size:17px;font-weight:700;margin-top:3px}
+#ph-deger{color:var(--camgobegi)}
+#sicaklik-deger{color:var(--ates)}
+#hacim-deger{color:var(--mavi)}
 
-        .start-btn-round {
-            background: rgba(10, 15, 25, 0.8);
-            border: 1.5px solid rgba(0, 162, 255, 0.65);
-            color: #bceeff;
-            padding: 16px 50px; 
-            font-size: 11.5px;   
-            font-weight: 800; 
-            border-radius: 25px; 
-            cursor: pointer; 
-            letter-spacing: 2.5px;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 10px 30px rgba(0, 162, 255, 0.25), inset 0 1px 1px rgba(255,255,255,0.15);
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-        .start-btn-round:active {
-            transform: scale(0.95);
-            background: rgba(0, 162, 255, 0.3);
-            border-color: #00a2ff;
-        }
+/* ---------- araç düğmeleri ---------- */
+.arac-satiri{display:flex;gap:8px;padding:0 12px 8px;background:var(--panel)}
+.btn-arac{
+  flex:1;font-size:11.5px;padding:10px 4px;font-weight:700;border-radius:10px;
+  background:#12161f;border:1px solid var(--cizgi);color:var(--soluk);cursor:pointer;
+  transition:background .15s,color .15s;
+}
+.btn-arac.acik-kapak{background:linear-gradient(135deg,#00ffcc,#00aa88);color:#05070a;border-color:transparent}
+.btn-arac.acik-bek{background:linear-gradient(135deg,#ff5533,#aa2200);color:#fff;border-color:transparent}
+.btn-arac:focus-visible{outline:2px solid var(--camgobegi);outline-offset:2px}
 
-        /* 🧪 ANA LABORATUVAR ARABİRİMİ */
-        .dashboard { display: flex; gap: 10px; padding: 16px 16px 6px 16px; background: #0e1117; }
-        .indicator {
-            flex: 1; background: rgba(15, 19, 26, 0.8); border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 12px; padding: 10px; text-align: center; font-size: 11px; font-weight: 600; color: #8f9cae;
-        }
-        .indicator span { display: block; font-family: 'Courier New', monospace; font-size: 18px; font-weight: bold; margin-top: 2px; }
-        #ph-val { color: #00ffcc; }
-        #temp-val { color: #ff5533; }
-        .tools-container { display: flex; gap: 10px; padding: 0 16px 10px 16px; background: #0e1117; }
-        .btn-tool {
-            flex: 1; font-size: 12px; padding: 10px; font-weight: 700; border-radius: 10px;
-            background: #12161f; border: 1px solid rgba(255,255,255,0.05); color: #8f9cae; cursor: pointer;
-        }
-        .btn-tool.active-lid { background: linear-gradient(135deg, #00ffcc 0%, #00aa88 100%); color: #05070a; }
-        .btn-tool.active-burner { background: linear-gradient(135deg, #ff5533 0%, #aa2200 100%); color: #fff; }
-        .canvas-container { flex: 1; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle at center, #11151f 0%, #05070a 90%); position: relative; }
-        canvas { background-color: transparent; max-width: 100%; max-height: 100%; }
-        #reaction-monitor {
-            background: rgba(10, 14, 20, 0.9); border: 1px solid rgba(0, 255, 204, 0.15); color: #00ffcc; font-family: 'Courier New', monospace;
-            font-size: 13px; font-weight: bold; padding: 12px 16px; text-align: center; width: calc(100% - 32px); margin: 0 16px 6px 16px; border-radius: 10px; min-height: 42px; display: flex; align-items: center; justify-content: center;
-        }
-        #log-panel { color: #6b7785; font-size: 11px; text-align: center; font-family: monospace; padding-bottom: 6px; }
-        .controls { background-color: #0e1117; padding: 16px 20px 24px 20px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(255, 255, 255, 0.02); border-radius: 28px 28px 0 0; }
-        .select-container { display: flex; gap: 10px; }
-        select { flex: 1; background: #151a24; color: #fff; border: 1px solid rgba(255,255,255,0.08); padding: 14px; font-size: 14px; font-weight: 600; border-radius: 12px; outline: none; -webkit-appearance: none; }
-        .btn-add { background: linear-gradient(135deg, #00ffcc 0%, #0088cc 100%); color: #05070a; font-weight: bold; padding: 0 22px; border: none; border-radius: 12px; cursor: pointer; }
-        .btn-clear { background: linear-gradient(135deg, #ff3b30 0%, #5e0000 100%); border: none; color: white; padding: 14px; font-weight: bold; border-radius: 12px; cursor: pointer; }
-    </style>
+/* ---------- tuval ---------- */
+.tuval-alani{
+  flex:1;min-height:0;display:flex;justify-content:center;align-items:center;
+  background:radial-gradient(circle at center,#11151f 0%,#05070a 92%);
+}
+canvas{max-width:100%;max-height:100%;display:block}
+
+/* ---------- tepkime ekranı ---------- */
+#tepkime{
+  background:rgba(10,14,20,.92);border:1px solid rgba(0,255,204,.16);
+  margin:0 12px 6px;border-radius:11px;padding:10px 13px;text-align:center;
+}
+#denklem{
+  font-family:var(--mono);font-size:13px;font-weight:700;color:var(--camgobegi);
+  line-height:1.45;word-break:break-word;
+}
+#denklem.uyari{color:var(--ates)}
+#aciklama{font-size:11.5px;color:var(--soluk);margin-top:5px;line-height:1.45}
+
+/* ---------- kontroller ---------- */
+.kontroller{
+  background:var(--panel);padding:13px 14px 18px;
+  display:flex;flex-direction:column;gap:9px;
+  border-top:1px solid var(--cizgi);border-radius:22px 22px 0 0;
+}
+.satir{display:flex;gap:8px}
+select{
+  flex:1;min-width:0;background:var(--kart);color:#fff;border:1px solid var(--cizgi);
+  padding:12px 10px;font-size:13.5px;font-weight:600;border-radius:11px;
+  outline:none;-webkit-appearance:none;appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--soluk) 50%),linear-gradient(135deg,var(--soluk) 50%,transparent 50%);
+  background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:30px;
+}
+select:focus-visible{outline:2px solid var(--camgobegi);outline-offset:1px}
+select.dar{flex:0 0 96px}
+.btn-ekle{
+  background:linear-gradient(135deg,#00ffcc,#0088cc);color:#05070a;font-weight:800;
+  padding:0 20px;border:none;border-radius:11px;cursor:pointer;font-size:13px;letter-spacing:.5px;
+}
+.btn-ekle:active{transform:scale(.97)}
+.btn-ikincil{
+  flex:1;background:#12161f;border:1px solid var(--cizgi);color:var(--soluk);
+  padding:11px;font-weight:700;border-radius:11px;cursor:pointer;font-size:12px;
+}
+.btn-sil{
+  flex:1;background:linear-gradient(135deg,#ff3b30,#7a0d06);border:none;color:#fff;
+  padding:11px;font-weight:700;border-radius:11px;cursor:pointer;font-size:12px;
+}
+button:focus-visible{outline:2px solid var(--camgobegi);outline-offset:2px}
+
+/* ---------- kayıt penceresi ---------- */
+#kayit-katman{
+  position:fixed;inset:0;z-index:900;background:rgba(3,5,8,.86);
+  display:none;flex-direction:column;padding:18px;
+}
+#kayit-katman.acik{display:flex}
+#kayit-kutu{
+  background:var(--panel);border:1px solid var(--cizgi);border-radius:16px;
+  flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;
+}
+#kayit-baslik{
+  padding:14px 16px;border-bottom:1px solid var(--cizgi);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:13px;font-weight:800;letter-spacing:.5px;
+}
+#kayit-liste{flex:1;overflow-y:auto;padding:10px 16px;-webkit-overflow-scrolling:touch}
+.kayit{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12.5px;line-height:1.5}
+.kayit:last-child{border-bottom:none}
+.kayit b{display:block;font-family:var(--mono);font-size:10px;color:var(--soluk);margin-bottom:3px;letter-spacing:.5px}
+.kayit .dnk{font-family:var(--mono);color:var(--camgobegi);font-size:12px}
+#kayit-alt{padding:12px 16px;border-top:1px solid var(--cizgi);display:flex;gap:8px}
+
+/* ---------- yazdırma ---------- */
+@media print{
+  body>*:not(#kayit-katman){display:none!important}
+  #kayit-katman{position:static;display:block!important;background:#fff;padding:0}
+  #kayit-kutu{border:none;background:#fff;color:#000}
+  #kayit-baslik,#kayit-alt{display:none}
+  .kayit{border-color:#ddd;color:#000}
+  .kayit .dnk{color:#000}
+  .kayit b{color:#555}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
 </head>
 <body>
 
-    <!-- 🌌 GİRİŞ EKRANI -->
-    <div id="splash-screen">
-        <div class="brand-container-block">
-            <img src="image_13.png" class="teacher-brand-logo" alt="Medeni Gökalp Logo">
-            <div class="main-title">QUANTUM LAB CORE</div>
-            <div class="user-logo-container">
-                <img src="image_11.png" alt="Yuvarlak Sanat Görseli">
-            </div>
-            <div class="premium-slogan-one-line">
-                Never Trust an Atom, They Make up Everything
-            </div>
-            <div class="btn-bottom-center-positioner">
-                <button class="start-btn-round" onclick="initLab()">SİSTEMİ BAŞLAT</button>
-            </div>
-        </div>
+<!-- ================= GİRİŞ ================= -->
+<div id="giris">
+  <img src="image_13.png" class="marka-logo" alt="Medeni Gökalp" onerror="this.setAttribute('data-yok','')">
+  <h1>Kimya Laboratuvarı</h1>
+  <div class="alt">Sanal tepkime simülatörü</div>
+  <div class="halka"><img src="image_11.png" alt="" onerror="this.parentNode.style.display='none'"></div>
+  <div class="slogan">Gerçekte tehlikeli olan tepkimeleri güvenle dene. Her tepkimenin denklemini gör.</div>
+  <button class="btn-baslat" id="btn-baslat">SİSTEMİ BAŞLAT</button>
+</div>
+
+<!-- ================= GÖSTERGELER ================= -->
+<div class="gosterge-satiri">
+  <div class="gosterge">pH<span id="ph-deger">—</span></div>
+  <div class="gosterge">Sıcaklık<span id="sicaklik-deger">298 K</span></div>
+  <div class="gosterge">Hacim<span id="hacim-deger">0 mL</span></div>
+</div>
+
+<div class="arac-satiri">
+  <button id="btn-kapak" class="btn-arac">🔓 Kapak açık</button>
+  <button id="btn-bek" class="btn-arac">🔥 Bek kapalı</button>
+</div>
+
+<div class="tuval-alani"><canvas id="tuval" width="600" height="560"></canvas></div>
+
+<div id="tepkime">
+  <div id="denklem">Reaktif bekleniyor</div>
+  <div id="aciklama">Behere önce su ekleyerek başla.</div>
+</div>
+
+<!-- ================= KONTROLLER ================= -->
+<div class="kontroller">
+  <div class="satir">
+    <select id="madde" aria-label="Madde seç">
+      <optgroup label="Çözeltiler ve sıvılar">
+        <option value="H2O">Saf su (H₂O)</option>
+        <option value="HCl">Hidroklorik asit (HCl) · 1 M</option>
+        <option value="HNO3">Nitrik asit (HNO₃) · 1 M</option>
+        <option value="H2SO4">Sülfürik asit (H₂SO₄) · 1 M</option>
+        <option value="NaOH">Sodyum hidroksit (NaOH) · 1 M</option>
+        <option value="KOH">Potasyum hidroksit (KOH) · 1 M</option>
+        <option value="LiOH">Lityum hidroksit (LiOH) · 1 M</option>
+      </optgroup>
+      <optgroup label="1A metalleri">
+        <option value="Li">Lityum (Li)</option>
+        <option value="Na">Sodyum (Na)</option>
+        <option value="K">Potasyum (K)</option>
+        <option value="Rb">Rubidyum (Rb)</option>
+        <option value="Cs">Sezyum (Cs)</option>
+      </optgroup>
+      <optgroup label="2A metalleri">
+        <option value="Be">Berilyum (Be)</option>
+        <option value="Mg">Magnezyum (Mg)</option>
+        <option value="Ca">Kalsiyum (Ca)</option>
+        <option value="Ba">Baryum (Ba)</option>
+      </optgroup>
+      <optgroup label="Diğer metaller">
+        <option value="Al">Alüminyum (Al)</option>
+        <option value="Zn">Çinko (Zn)</option>
+        <option value="Fe">Demir (Fe)</option>
+        <option value="Pb">Kurşun (Pb)</option>
+        <option value="Cu">Bakır (Cu)</option>
+        <option value="Ag">Gümüş (Ag)</option>
+        <option value="Au">Altın (Au)</option>
+      </optgroup>
+      <optgroup label="Tuzlar ve katı bazlar">
+        <option value="NaCl">Sodyum klorür (NaCl)</option>
+        <option value="AgNO3">Gümüş nitrat (AgNO₃)</option>
+        <option value="Ca_OH_2">Kalsiyum hidroksit [Ca(OH)₂]</option>
+        <option value="Mg_OH_2">Magnezyum hidroksit [Mg(OH)₂]</option>
+      </optgroup>
+    </select>
+    <select id="miktar" class="dar" aria-label="Miktar"></select>
+    <button class="btn-ekle" id="btn-ekle">EKLE</button>
+  </div>
+
+  <div class="satir">
+    <select id="belirtec" aria-label="Belirteç">
+      <option value="yok">Belirteç yok</option>
+      <option value="turnusol">Turnusol</option>
+      <option value="fenolftalein">Fenolftalein</option>
+      <option value="metiloranj">Metil oranj</option>
+    </select>
+    <button class="btn-ikincil" id="btn-kayit">📋 Gözlemler</button>
+  </div>
+
+  <div class="satir">
+    <button class="btn-sil" id="btn-temizle">🗑️ Beheri boşalt</button>
+  </div>
+</div>
+
+<!-- ================= GÖZLEM DEFTERİ ================= -->
+<div id="kayit-katman">
+  <div id="kayit-kutu">
+    <div id="kayit-baslik"><span>Gözlem defteri</span><span id="kayit-sayi"></span></div>
+    <div id="kayit-liste"></div>
+    <div id="kayit-alt">
+      <button class="btn-ikincil" id="btn-yazdir">🖨️ Yazdır / PDF</button>
+      <button class="btn-ikincil" id="btn-kapat">Kapat</button>
     </div>
+  </div>
+</div>
 
-    <!-- 📊 LABORATUVAR ARABİRİMİ -->
-    <div class="dashboard">
-        <div class="indicator">HİDROJEN İNDEKSİ <span id="ph-val">7.00</span></div>
-        <div class="indicator">TERMAL ENERJİ <span id="temp-val">298.15 K</span></div>
-    </div>
+<script>
+"use strict";
 
-    <div class="tools-container">
-        <button id="lidToggle" class="btn-tool" onclick="toggleLid()">🔓 LID (KAPAK AÇIK)</button>
-        <button id="burnerToggle" class="btn-tool" onclick="toggleBurner()">🔥 BURNER (KAPALI)</button>
-    </div>
+/* =======================================================================
+   1) MADDE VERİLERİ
+   ======================================================================= */
+const AG = (s)=>s.replace(/(\d+)/g,(m)=>m.split("").map(d=>"₀₁₂₃₄₅₆₇₈₉"[+d]).join(""));
 
-    <div class="canvas-container">
-        <canvas id="chemCanvas" width="600" height="600"></canvas>
-    </div>
+const MADDE = {
+  H2O:{ad:"Saf su",f:"H₂O",tur:"su"},
 
-    <div id="reaction-monitor">Reaktif bekleniyor... TEPKİME YOK</div>
-    <div id="log-panel">Laboratuvar terminali aktif.</div>
+  HCl:{ad:"Hidroklorik asit",f:"HCl",tur:"asit",H:1,anyon:"Cl",anyonYuk:1,derisim:1},
+  HNO3:{ad:"Nitrik asit",f:"HNO₃",tur:"asit",H:1,anyon:"NO3",anyonYuk:1,derisim:1,yukseltgen:true},
+  H2SO4:{ad:"Sülfürik asit",f:"H₂SO₄",tur:"asit",H:2,anyon:"SO4",anyonYuk:2,derisim:1},
 
-    <div class="controls">
-        <div class="select-container">
-            <select id="substanceSelect">
-                <optgroup label="💧 Çözeltiler & Sıvılar">
-                    <option value="H2O">Saf Su (H2O)</option>
-                    <option value="Litmus">Turnusol Boyası (Litmus)</option>
-                    <option value="HNO3">Nitrik Asit (HNO3)</option>
-                    <option value="H2SO4">Sülfürik Asit (H2SO4)</option>
-                    <option value="HCl">Hidroklorik Asit (HCl)</option>
-                </optgroup>
-                <optgroup label="🧱 Katı Metaller (1A - 2A - 3A)">
-                    <option value="Li">Lityum Metal (Li)</option>
-                    <option value="Na">Sodyum Metal (Na)</option>
-                    <option value="K">Potasyum Metal (K)</option>
-                    <option value="Rb">Rubidyum Metal (Rb)</option>
-                    <option value="Cs">Sezyum Metal (Cs)</option>
-                    <option value="Be">Berilyum Metal (Be)</option>
-                    <option value="Mg">Magnezyum Metal (Mg)</option>
-                    <option value="Ca">Kalsiyum Metal (Ca)</option>
-                    <option value="Ba">Baryum Metal (Ba)</option>
-                    <option value="Al">Alüminyum Metal (Al)</option>
-                </optgroup>
-                <optgroup label="🧱 Diğer Katı Metaller">
-                    <option value="Fe">Demir Metal (Fe)</option>
-                    <option value="Pb">Kurşun Metal (Pb)</option>
-                    <option value="Ag">Gümüş Metal (Ag)</option>
-                    <option value="Cu">Bakır Metal (Cu)</option>
-                    <option value="Hg">Cıva Sıvı Metal (Hg)</option>
-                    <option value="Au">Altın Metal (Au)</option>
-                    <option value="NaCl">Sodyum Klorür / Tuz (NaCl)</option>
-                    <option value="AgNO3">Gümüş Nitrat (AgNO3)</option>
-                </optgroup>
-                <optgroup label="🧪 Güçlü & Zayıf Bazlar">
-                    <option value="LiOH">Lityum Hidroksit (LiOH)</option>
-                    <option value="NaOH">Sodyum Hidroksit (NaOH)</option>
-                    <option value="KOH">Potasyum Hidroksit (KOH)</option>
-                    <option value="Mg_OH_2">Magnezyum Hidroksit [Mg(OH)2]</option>
-                    <option value="Ca_OH_2">Kalsiyum Hidroksit [Ca(OH)2]</option>
-                </optgroup>
-            </select>
-            <button class="btn-add" onclick="handleAdd()">EKLE</button>
-        </div>
-        <button class="btn-clear" onclick="clearBeaker()">🗑️ Beheri Temizle / Sıfırla</button>
-    </div>
+  NaOH:{ad:"Sodyum hidroksit",f:"NaOH",tur:"baz",OH:1,derisim:1,kuvvetli:true},
+  KOH:{ad:"Potasyum hidroksit",f:"KOH",tur:"baz",OH:1,derisim:1,kuvvetli:true},
+  LiOH:{ad:"Lityum hidroksit",f:"LiOH",tur:"baz",OH:1,derisim:1,kuvvetli:true},
+  Ca_OH_2:{ad:"Kalsiyum hidroksit",f:"Ca(OH)₂",tur:"kati-baz",OH:2,MA:74.09,cozunurluk:0.022},
+  Mg_OH_2:{ad:"Magnezyum hidroksit",f:"Mg(OH)₂",tur:"kati-baz",OH:2,MA:58.32,cozunurluk:0.0002},
 
-    <script>
-        const canvas = document.getElementById('chemCanvas');
-        const ctx = canvas.getContext('2d');
-        let audioCtx = null;
-        let beakerContents = [];
-        let mixedPh = 7.0;
-        let maxTemp = 298.15;
-        let activeIndicators = { litmus: false };
-        let hasPrecipitate = false; 
-        let isLidClosed = false;
-        let isBurnerOn = false;
-        let liquidLevel = 0; 
-        let targetLiquidLevel = 0;
-        let waveWave = 0;
-        let particles = [];
-        let bubbles = [];
-        let liquidDrops = [];
+  Li:{ad:"Lityum",f:"Li",tur:"metal",MA:6.94,deger:1,grup:"1A"},
+  Na:{ad:"Sodyum",f:"Na",tur:"metal",MA:22.99,deger:1,grup:"1A"},
+  K:{ad:"Potasyum",f:"K",tur:"metal",MA:39.10,deger:1,grup:"1A"},
+  Rb:{ad:"Rubidyum",f:"Rb",tur:"metal",MA:85.47,deger:1,grup:"1A"},
+  Cs:{ad:"Sezyum",f:"Cs",tur:"metal",MA:132.91,deger:1,grup:"1A"},
 
-        const PALETTES = {
-            water: { top: "rgba(0, 180, 216, 0.35)", bottom: "rgba(3, 4, 94, 0.6)" },
-            litmusAcid: { top: "rgba(242, 53, 53, 0.6)", bottom: "rgba(138, 12, 12, 0.75)" },
-            litmusBase: { top: "rgba(38, 72, 232, 0.6)", bottom: "rgba(14, 25, 133, 0.75)" },
-            CuMix: { top: "rgba(0, 160, 220, 0.5)", bottom: "rgba(0, 50, 130, 0.75)" },
-            FeMix: { top: "rgba(200, 110, 10, 0.5)", bottom: "rgba(90, 45, 0, 0.75)" },
-            defaultMix: { top: "rgba(215, 220, 228, 0.35)", bottom: "rgba(95, 105, 120, 0.6)" }
-        };
+  Be:{ad:"Berilyum",f:"Be",tur:"metal",MA:9.01,deger:2,grup:"2A"},
+  Mg:{ad:"Magnezyum",f:"Mg",tur:"metal",MA:24.31,deger:2,grup:"2A"},
+  Ca:{ad:"Kalsiyum",f:"Ca",tur:"metal",MA:40.08,deger:2,grup:"2A"},
+  Ba:{ad:"Baryum",f:"Ba",tur:"metal",MA:137.33,deger:2,grup:"2A"},
 
-        function playBeepSound(freq, duration, type="sine") {
-            if (!audioCtx) return;
-            try {
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(); osc.stop(audioCtx.currentTime + duration);
-            } catch(e){}
-        }
+  Al:{ad:"Alüminyum",f:"Al",tur:"metal",MA:26.98,deger:3,amfoter:true},
+  Zn:{ad:"Çinko",f:"Zn",tur:"metal",MA:65.38,deger:2},
+  Fe:{ad:"Demir",f:"Fe",tur:"metal",MA:55.85,deger:2,renk:"fe"},
+  Pb:{ad:"Kurşun",f:"Pb",tur:"metal",MA:207.2,deger:2},
+  Cu:{ad:"Bakır",f:"Cu",tur:"metal",MA:63.55,deger:2,renk:"cu"},
+  Ag:{ad:"Gümüş",f:"Ag",tur:"metal",MA:107.87,deger:1},
+  Au:{ad:"Altın",f:"Au",tur:"metal",MA:196.97,deger:3},
 
-        function initLab() {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const splash = document.getElementById('splash-screen');
-            if (splash) {
-                splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.remove();
-                    playBeepSound(523.25, 0.15, "triangle");
-                }, 400);
-            }
-        }
+  NaCl:{ad:"Sodyum klorür",f:"NaCl",tur:"tuz",MA:58.44,iyon:{Cl:1}},
+  AgNO3:{ad:"Gümüş nitrat",f:"AgNO₃",tur:"tuz",MA:169.87,iyon:{Ag:1}}
+};
 
-        class LiquidDrop {
-            constructor(color) {
-                this.x = 300 + (Math.random() * 20 - 10); this.y = 20;
-                this.speed = 11; this.color = color; this.length = 14;
-            }
-            update(surfaceY) {
-                this.y += this.speed;
-                if (this.y >= surfaceY) { playBeepSound(600, 0.08, "sine"); return true; }
-                return false;
-            }
-            draw() {
-                ctx.save(); ctx.strokeStyle = this.color; ctx.lineWidth = 3.5;
-                ctx.lineCap = "round"; ctx.beginPath();
-                ctx.moveTo(this.x, this.y); ctx.lineTo(this.x, this.y + this.length);
-                ctx.stroke(); ctx.restore();
-            }
-        }
+/* etkinlik sırası — hidrojenin solundakiler asitten H₂ açığa çıkarır */
+const ETKINLIK = ["Cs","Rb","K","Ba","Ca","Na","Li","Mg","Al","Zn","Fe","Pb","H","Cu","Ag","Au"];
+const hIndeks = ETKINLIK.indexOf("H");
+const asittenH2 = (m)=>ETKINLIK.indexOf(m) > -1 && ETKINLIK.indexOf(m) < hIndeks;
 
-        class Bubble {
-            constructor() {
-                this.x = Math.random() * 210 + 195; this.y = 475;
-                this.radius = Math.random() * 2 + 0.8; this.vy = -(Math.random() * 1.3 + 0.5);
-                this.wobble = Math.random() * 100;
-            }
-            update() { this.y += this.vy; this.x += Math.sin(this.wobble / 12) * 0.4; this.wobble++; }
-            draw() {
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(255, 255, 255, 0.18)"; ctx.fill();
-            }
-        }
+const MIKTAR_SIVI = [10,25,50,100];
+const MIKTAR_KATI = [0.5,1,2,5];
 
-        class Spark {
-            constructor(x, y, color="#ff5533") {
-                this.x = x; this.y = y;
-                this.vx = (Math.random() - 0.5) * 14; this.vy = (Math.random() - 0.9) * 16;
-                this.radius = Math.random() * 3.5 + 1.2; this.life = 1.0; this.decay = Math.random() * 0.025 + 0.018;
-                this.color = color;
-            }
-            update() { this.x += this.vx; this.y += this.vy; this.vy += 0.3; this.life -= this.decay; }
-            draw() {
-                ctx.save(); ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(255,255,255,1)"; ctx.fill(); ctx.restore();
-            }
-        }
+/* =======================================================================
+   2) BEHER DURUMU
+   ======================================================================= */
+let hazne, kapakKapali, bekAcik, belirtec, kayitlar;
 
-        function toggleLid() {
-            isLidClosed = !isLidClosed;
-            const btn = document.getElementById('lidToggle');
-            playBeepSound(400, 0.05);
-            if (isLidClosed) { btn.className = "btn-tool active-lid"; btn.innerText = "🔒 LID (KAPAK KAPALI)"; }
-            else { btn.className = "btn-tool"; btn.innerText = "🔓 LID (KAPAK AÇIK)"; }
-        }
+function sifirla(){
+  hazne = {
+    hacim:0,            // mL
+    nH:0, nOH:0,        // mol
+    sicaklik:298.15,    // K
+    cokelek:0,          // 0-1 görsel yoğunluk
+    cokelekAd:"",
+    iyon:{Ag:0, Cl:0},
+    metaller:{},        // çözünmemiş metal mol
+    gaz:null,           // "H2" | "NO2" | "buhar"
+    basinc:1.0,
+    kaynama:false
+  };
+  kapakKapali = false;
+  bekAcik = false;
+  kayitlar = [];
+  kabarciklar.length = 0; kivilcimlar.length = 0; damlalar.length = 0;
+  sivi = 0; hedefSivi = 0;
+}
 
-        function toggleBurner() {
-            isBurnerOn = !isBurnerOn;
-            const btn = document.getElementById('burnerToggle');
-            playBeepSound(isBurnerOn ? 700 : 300, 0.08, "triangle");
-            if (isBurnerOn) { btn.className = "btn-tool active-burner"; btn.innerText = "🔥 BURNER (ISITICI AÇIK)"; }
-            else { btn.className = "btn-tool"; btn.innerText = "🔥 BURNER (KAPALI)"; }
-        }
+/* ---- pH hesabı: net mol / hacim ---- */
+function pHHesapla(){
+  if(hazne.hacim <= 0) return null;
+  const V = hazne.hacim/1000;
+  const net = hazne.nH - hazne.nOH;
+  if(Math.abs(net) < 1e-9) return 7;
+  if(net > 0){
+    const d = net/V;
+    return Math.max(0, Math.min(14, -Math.log10(d)));
+  }
+  const d = (-net)/V;
+  return Math.max(0, Math.min(14, 14 + Math.log10(d)));
+}
 
-        function updateMonitor(text) { document.getElementById('reaction-monitor').innerText = text; }
+/* =======================================================================
+   3) TEPKİME MOTORU
+   ======================================================================= */
+function denklemMetalAsit(m, asitKod){
+  const md = MADDE[m], as = MADDE[asitKod];
+  const n = md.deger;
+  if(asitKod === "H2SO4"){
+    // 2M + n H₂SO₄ → M₂(SO₄)ₙ + n H₂   (n çift ise 2'ye böl)
+    if(n % 2 === 0){
+      const k = n/2;
+      return `${md.f}(k) + ${k>1?k:""}H₂SO₄(suda) → ${md.f}${k>1?"("+"SO₄"+")"+AG(String(k)):"SO₄"}(suda) + ${k>1?k:""}H₂(g)`;
+    }
+    return `2${md.f}(k) + ${n>1?n:""}H₂SO₄(suda) → ${md.f}₂${n>1?"(SO₄)"+AG(String(n)):"SO₄"}(suda) + ${n>1?n:""}H₂(g)`;
+  }
+  const asF = as.f, anF = as.anyon === "NO3" ? "NO₃" : "Cl";
+  if(n === 1) return `2${md.f}(k) + 2${asF}(suda) → 2${md.f}${anF}(suda) + H₂(g)`;
+  if(n === 2) return `${md.f}(k) + 2${asF}(suda) → ${md.f}${anF}${anF==="Cl"?"₂":"₂"}(suda) + H₂(g)`;
+  return `2${md.f}(k) + 6${asF}(suda) → 2${md.f}${anF}₃(suda) + 3H₂(g)`;
+}
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            waveWave += 0.07;
+function mevcutAsit(){
+  return ["HCl","HNO3","H2SO4"].find(a => (hazne.asitler && hazne.asitler[a] > 0));
+}
 
-            if (isBurnerOn) {
-                maxTemp = Math.min(maxTemp + 0.6, 680.00);
-                document.getElementById('temp-val').innerText = maxTemp.toFixed(2) + " K";
-            } else if (maxTemp > 298.15) {
-                maxTemp = Math.max(maxTemp - 0.18, 298.15);
-                document.getElementById('temp-val').innerText = maxTemp.toFixed(2) + " K";
-            }
+function ekle(kod, miktar){
+  const m = MADDE[kod];
+  if(!m) return;
+  hazne.asitler = hazne.asitler || {HCl:0,HNO3:0,H2SO4:0};
+  let denklem = "", aciklama = "", uyari = false;
 
-            if (liquidLevel < targetLiquidLevel) liquidLevel += 0.01;
-            if (liquidLevel > targetLiquidLevel) liquidLevel -= 0.01;
+  /* ---------- SU ---------- */
+  if(m.tur === "su"){
+    hazne.hacim += miktar;
+    damlaAt("rgba(0,180,216,.85)");
+    denklem = "H₂O(s)";
+    aciklama = `Behere ${miktar} mL saf su eklendi.`;
+    // suda bekleyen metal varsa şimdi tepkimeye girer
+    const bekleyen = Object.keys(hazne.metaller).find(k => hazne.metaller[k] > 0 && (MADDE[k].grup === "1A" || ["Ca","Ba"].includes(k)));
+    if(bekleyen){
+      const s = metalSuTepkimesi(bekleyen, hazne.metaller[bekleyen]);
+      hazne.metaller[bekleyen] = 0;
+      denklem = s.denklem; aciklama = s.aciklama; uyari = s.uyari;
+    }
+  }
 
-            let bX = 180, bY = 120, bW = 240, bH = 360, bR = 20;
-            let currentHeight = bH * liquidLevel;
-            let surfaceY = (bY + bH) - currentHeight;
+  /* ---------- ASİT ---------- */
+  else if(m.tur === "asit"){
+    if(hazne.hacim === 0 && miktar > 0){ /* asidin kendisi çözelti, hacme katılır */ }
+    const mol = m.derisim * (miktar/1000) * m.H;
+    hazne.hacim += miktar;
+    hazne.nH += mol;
+    hazne.asitler[kod] += m.derisim * (miktar/1000);
+    damlaAt("rgba(255,220,220,.85)");
+    denklem = `${m.f}(suda) → ${m.H>1?"2":""}H⁺(suda) + ${m.anyon==="SO4"?"SO₄²⁻":m.anyon==="NO3"?"NO₃⁻":"Cl⁻"}(suda)`;
+    aciklama = `${miktar} mL 1 M ${m.ad} eklendi (${mol.toFixed(3)} mol H⁺).`;
 
-            for (let i = liquidDrops.length - 1; i >= 0; i--) {
-                let hit = liquidDrops[i].update(surfaceY);
-                if (hit) { liquidDrops.splice(i, 1); targetLiquidLevel = Math.min(targetLiquidLevel + 0.15, 0.90); }
-                else { liquidDrops[i].draw(); }
-            }
+    if(hazne.nOH > 0){
+      const s = notrlesme();
+      denklem = s.denklem; aciklama += " " + s.aciklama;
+    }
+    // asit + bekleyen metal
+    const bekleyenM = Object.keys(hazne.metaller).find(k => hazne.metaller[k] > 0);
+    if(bekleyenM){
+      const s = metalAsitTepkimesi(bekleyenM, hazne.metaller[bekleyenM], kod);
+      if(s){ hazne.metaller[bekleyenM] = 0; denklem = s.denklem; aciklama = s.aciklama; uyari = s.uyari; }
+    }
+  }
 
-            if (liquidLevel > 0.01) {
-                ctx.save();
-                let colorBase = getLiquidPalette();
-                let liquidGrad = ctx.createLinearGradient(bX, surfaceY, bX, bY + bH);
-                liquidGrad.addColorStop(0, colorBase.top);
-                liquidGrad.addColorStop(1, colorBase.bottom);
-                ctx.fillStyle = liquidGrad;
+  /* ---------- SIVI BAZ ---------- */
+  else if(m.tur === "baz"){
+    const mol = m.derisim * (miktar/1000) * m.OH;
+    hazne.hacim += miktar;
+    hazne.nOH += mol;
+    damlaAt("rgba(220,235,255,.85)");
+    denklem = `${m.f}(suda) → ${m.f.replace("OH","")}⁺(suda) + OH⁻(suda)`;
+    aciklama = `${miktar} mL 1 M ${m.ad} eklendi (${mol.toFixed(3)} mol OH⁻).`;
+    if(hazne.nH > 0){
+      const s = notrlesme();
+      denklem = s.denklem; aciklama += " " + s.aciklama;
+    }
+  }
 
-                ctx.beginPath(); ctx.moveTo(bX + 4, bY + bH - 4); ctx.lineTo(bX + 4, surfaceY);
-                for (let x = bX + 4; x <= bX + bW - 4; x++) {
-                    let waveY = surfaceY + Math.sin((x / 18) + waveWave) * 4.5 * liquidLevel;
-                    ctx.lineTo(x, waveY);
-                }
-                ctx.lineTo(bX + bW - 4, bY + bH - 4);
-                ctx.closePath(); ctx.fill(); ctx.restore();
+  /* ---------- KATI BAZ (az çözünen) ---------- */
+  else if(m.tur === "kati-baz"){
+    const mol = miktar / m.MA;
+    if(hazne.hacim === 0){
+      hazne.metaller[kod] = (hazne.metaller[kod]||0) + mol;
+      denklem = `${m.f}(k)`;
+      aciklama = `${miktar} g ${m.ad} behere kondu. Çözünmesi için su gerekiyor.`;
+    } else {
+      const V = hazne.hacim/1000;
+      const cozunen = Math.min(mol, m.cozunurluk * V);
+      hazne.nOH += cozunen * m.OH;
+      if(mol - cozunen > 0.0005){
+        hazne.cokelek = Math.min(1, hazne.cokelek + 0.5);
+        hazne.cokelekAd = m.f;
+      }
+      denklem = `${m.f}(k) ⇌ ${m.f.replace(/\(OH\)₂/,"")}²⁺(suda) + 2OH⁻(suda)`;
+      aciklama = `${m.ad} suda az çözünür. ${cozunen.toFixed(4)} mol çözündü, kalanı dipte çökelek olarak durdu.`;
+      if(hazne.nH > 0){ const s = notrlesme(); aciklama += " " + s.aciklama; }
+    }
+  }
 
-                if (hasPrecipitate) {
-                    ctx.save(); ctx.fillStyle = "rgba(240, 240, 245, 0.85)";
-                    ctx.beginPath(); ctx.ellipse(bX + bW/2, bY + bH - 8, bW/2 - 8, 10, 0, 0, Math.PI * 2);
-                    ctx.fill(); ctx.restore();
-                }
-                if (Math.random() < 0.12 + (maxTemp - 298) * 0.004) bubbles.push(new Bubble());
-            }
+  /* ---------- TUZLAR ---------- */
+  else if(m.tur === "tuz"){
+    const mol = miktar / m.MA;
+    if(hazne.hacim === 0){
+      hazne.metaller[kod] = (hazne.metaller[kod]||0) + mol;
+      denklem = `${m.f}(k)`;
+      aciklama = `${miktar} g ${m.ad} behere kondu. Çözünmesi için su gerekiyor.`;
+    } else {
+      Object.keys(m.iyon).forEach(i => hazne.iyon[i] += mol * m.iyon[i]);
+      denklem = `${m.f}(k) → ${kod==="NaCl"?"Na⁺(suda) + Cl⁻(suda)":"Ag⁺(suda) + NO₃⁻(suda)"}`;
+      aciklama = `${miktar} g ${m.ad} suda çözündü.`;
+      // çökelme
+      const ort = Math.min(hazne.iyon.Ag, hazne.iyon.Cl);
+      if(ort > 0){
+        hazne.iyon.Ag -= ort; hazne.iyon.Cl -= ort;
+        hazne.cokelek = Math.min(1, hazne.cokelek + 0.6);
+        hazne.cokelekAd = "AgCl";
+        denklem = "Ag⁺(suda) + Cl⁻(suda) → AgCl(k)↓";
+        aciklama = `Beyaz AgCl çökeleği oluştu (${ort.toFixed(4)} mol). Gümüş klorür suda çözünmez.`;
+      }
+    }
+  }
 
-            for (let i = bubbles.length - 1; i >= 0; i--) {
-                bubbles[i].update();
-                let waveAtX = surfaceY + Math.sin((bubbles[i].x / 18) + waveWave) * 4.5 * liquidLevel;
-                if (bubbles[i].y < waveAtX + 4 || liquidLevel === 0) bubbles.splice(i, 1);
-                else bubbles[i].draw();
-            }
+  /* ---------- METALLER ---------- */
+  else if(m.tur === "metal"){
+    const mol = miktar / m.MA;
+    const asit = mevcutAsit();
+    let s = null;
 
-            ctx.save();
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.18)"; ctx.lineWidth = 4;
-            ctx.beginPath(); ctx.moveTo(bX, bY); ctx.lineTo(bX, bY + bH - bR);
-            ctx.arcTo(bX, bY + bH, bX + bR, bY + bH, bR); ctx.lineTo(bX + bW - bR, bY + bH);
-            ctx.arcTo(bX + bW, bY + bH, bX + bW, bY + bH - bR, bR); ctx.lineTo(bX + bW, bY);
-            ctx.stroke();
+    if(asit){
+      s = metalAsitTepkimesi(kod, mol, asit);
+    } else if(hazne.hacim > 0 && hazne.nOH > 0 && m.amfoter){
+      s = amfoterTepkime(kod, mol);
+    } else if(hazne.hacim > 0){
+      s = metalSuTepkimesi(kod, mol);
+    }
 
-            if (isLidClosed) {
-                ctx.strokeStyle = "#00ffcc"; ctx.lineWidth = 6;
-                ctx.beginPath(); ctx.moveTo(bX - 6, bY); ctx.lineTo(bX + bW + 6, bY); stroke();
-            }
-            if (isBurnerOn) {
-                ctx.save(); ctx.shadowBlur = 20; ctx.shadowColor = "#ff5533";
-                ctx.fillStyle = "rgba(255, 85, 51, 0.3)";
-                ctx.fillRect(bX + 20, bY + bH + 4, bW - 40, 14); ctx.restore();
-            }
-            ctx.restore();
+    if(s){ denklem = s.denklem; aciklama = s.aciklama; uyari = s.uyari; }
+    else {
+      hazne.metaller[kod] = (hazne.metaller[kod]||0) + mol;
+      hedefSivi = Math.min(.9, hedefSivi + .04);
+      denklem = `${m.f}(k)`;
+      aciklama = hazne.hacim === 0
+        ? `${miktar} g ${m.ad} boş behere kondu. Tepkime için su veya asit gerekiyor.`
+        : `${miktar} g ${m.ad} eklendi ama bu ortamda tepkime vermedi.`;
+    }
+  }
 
-            for (let i = particles.length - 1; i >= 0; i--) {
-                particles[i].update();
-                if (particles[i].life <= 0) particles.splice(i, 1);
-                else particles[i].draw();
-            }
-            requestAnimationFrame(animate);
-        }
+  hazne.sicaklik = Math.min(hazne.sicaklik, 1200);
+  ekraniYaz(denklem, aciklama, uyari);
+  kayitEkle(denklem, aciklama);
+  gostergeleriYaz();
+}
 
-        function getLiquidPalette() {
-            if (activeIndicators.litmus) return mixedPh < 7.0 ? PALETTES.litmusAcid : PALETTES.litmusBase;
-            if (beakerContents.includes("Cu")) return PALETTES.CuMix;
-            if (beakerContents.includes("Fe")) return PALETTES.FeMix;
-            if (beakerContents.includes("H2O") && beakerContents.length === 1) return PALETTES.water;
-            return PALETTES.defaultMix;
-        }
+/* ---- metal + su ---- */
+function metalSuTepkimesi(kod, mol){
+  const m = MADDE[kod];
+  if(m.grup === "1A"){
+    hazne.nOH += mol;
+    const siddetli = ["K","Rb","Cs"].includes(kod);
+    hazne.sicaklik += siddetli ? 90*mol*10 : 45*mol*10;
+    hazne.gaz = "H2";
+    patlat(siddetli ? "#cc44ff" : "#ff7733", siddetli ? 90 : 45);
+    ses(140, .45, "sawtooth");
+    return {
+      denklem:`2${m.f}(k) + 2H₂O(s) → 2${m.f}OH(suda) + H₂(g)`,
+      aciklama:`${m.ad} suyla ${siddetli?"çok şiddetli":"hızlı"} tepkime verdi. Hidrojen gazı çıktı, çözelti bazikleşti, ortam ısındı.${siddetli?" Gerçek laboratuvarda bu tepkime patlayıcıdır.":""}`,
+      uyari:siddetli
+    };
+  }
+  if(kod === "Ca" || kod === "Ba"){
+    hazne.nOH += mol*2;
+    hazne.sicaklik += 25*mol*10;
+    hazne.gaz = "H2";
+    kabarcikPatlamasi(25);
+    return {
+      denklem:`${m.f}(k) + 2H₂O(s) → ${m.f}(OH)₂(suda) + H₂(g)`,
+      aciklama:`${m.ad} soğuk suyla yavaşça tepkime verdi. Kabarcıklar hidrojen gazıdır.`,
+      uyari:false
+    };
+  }
+  if(kod === "Mg"){
+    if(hazne.sicaklik > 350){
+      hazne.nOH += mol*2; hazne.gaz = "H2"; kabarcikPatlamasi(15);
+      return {denklem:`Mg(k) + 2H₂O(g) → Mg(OH)₂(k) + H₂(g)`,
+        aciklama:"Magnezyum ancak sıcak su veya su buharıyla tepkime verir. Bek açık olduğu için tepkime başladı.",uyari:false};
+    }
+    hazne.metaller[kod] = (hazne.metaller[kod]||0) + mol;
+    return {denklem:"Mg(k) + H₂O(s) → tepkime yok",
+      aciklama:"Magnezyum soğuk suyla pratikte tepkime vermez. Beki açıp suyu ısıtmayı dene.",uyari:false};
+  }
+  if(kod === "Be"){
+    hazne.metaller[kod] = (hazne.metaller[kod]||0) + mol;
+    return {denklem:"Be(k) + H₂O(s) → tepkime yok",
+      aciklama:"Berilyum yüzeyindeki oksit tabakası nedeniyle suyla tepkime vermez.",uyari:false};
+  }
+  hazne.metaller[kod] = (hazne.metaller[kod]||0) + mol;
+  return {denklem:`${m.f}(k) + H₂O(s) → tepkime yok`,
+    aciklama:`${m.ad} suyla tepkime vermez. Asit eklemeyi dene.`,uyari:false};
+}
 
-        function handleAdd() {
-            const select = document.getElementById('substanceSelect');
-            const val = select.value;
-            if (["H2O", "HCl", "HNO3", "H2SO4", "Litmus", "LiOH", "NaOH", "KOH"].includes(val)) {
-                liquidDrops.push(new LiquidDrop(val === "H2O" ? "rgba(0,180,216,0.8)" : "rgba(255,255,255,0.7)"));
-            } else {
-                targetLiquidLevel = Math.min(targetLiquidLevel + 0.12, 0.90);
-                playBeepSound(280, 0.1, "triangle");
-            }
-            if (!beakerContents.includes(val)) beakerContents.push(val);
+/* ---- metal + asit ---- */
+function metalAsitTepkimesi(kod, mol, asitKod){
+  const m = MADDE[kod];
+  if(m.tur !== "metal") return null;
 
-            if (["Li", "Na", "K", "Rb", "Cs"].includes(val)) {
-                if (beakerContents.includes("H2O")) {
-                    let currentSurfaceY = 480 - (360 * targetLiquidLevel);
-                    let flashColor = ["K","Rb","Cs"].includes(val) ? "#cc00ff" : "#ff5533";
-                    for (let i = 0; i < 70; i++) particles.push(new Spark(300, currentSurfaceY, flashColor));
-                    mixedPh = 13.40; maxTemp += 55.0; playBeepSound(140, 0.45, "sawtooth");
-                    updateMonitor(`⚠️ PATLAMA! 2${val}(k) + 2H₂O(s) → 2${val}OH(suda) + H₂(g)`);
-                } else { updateMonitor(`Metal İlavesi: Behere ${val}(k) eklendi.`); }
-            }
-            else if (["Mg", "Ca", "Ba", "Be"].includes(val)) {
-                if (beakerContents.includes("H2O")) {
-                    mixedPh = 11.20; maxTemp += 15.0;
-                    updateMonitor(`Tepkime: ${val}(k) + 2H₂O(s) → ${val}(OH)₂(suda) + H₂(g)`);
-                } else { updateMonitor(`Metal İlavesi: ${val}(k) eklendi.`); }
-            }
-            else if (val === "Al") { updateMonitor(`Amfoter Metal: Al eklendi. Kuvvetli asit veya baz bekliyor.`); }
-            else if (["LiOH", "NaOH", "KOH", "Mg_OH_2", "Ca_OH_2"].includes(val)) {
-                mixedPh = ["LiOH", "NaOH", "KOH"].includes(val) ? 13.80 : 11.00;
-                if (beakerContents.some(r => ["HCl","HNO3","H2SO4"].includes(r))) {
-                    mixedPh = 7.00; maxTemp += 32.0; updateMonitor(`⚡ NÖTRLEŞME: Asit + Baz Tepkimesi`);
-                } else { updateMonitor(`Baz İlavesi: Çözelti bazikleşti.`); }
-            }
-            else if ((val === "AgNO3" && beakerContents.includes("NaCl")) || (val === "NaCl" && beakerContents.includes("AgNO3"))) {
-                hasPrecipitate = true; updateMonitor(`Çökelme: Ag⁺ + Cl⁻ → AgCl(k) ⚪ (Beyaz Çökelek)`);
-            }
-            else { updateMonitor(`Sistem: ${val} başarıyla behere aktarıldı.`); }
+  // soy metaller + nitrik asit (yükseltgen asit)
+  if(!asittenH2(kod)){
+    if(asitKod === "HNO3" && (kod === "Cu" || kod === "Ag")){
+      hazne.nH = Math.max(0, hazne.nH - mol*2);
+      hazne.gaz = "NO2";
+      hazne.sicaklik += 12*mol*10;
+      kabarcikPatlamasi(40);
+      const d = kod === "Cu"
+        ? "Cu(k) + 4HNO₃(der) → Cu(NO₃)₂(suda) + 2NO₂(g) + 2H₂O(s)"
+        : "Ag(k) + 2HNO₃(der) → AgNO₃(suda) + NO₂(g) + H₂O(s)";
+      return {denklem:d,
+        aciklama:`${m.ad} hidrojenin altında olduğu için normal asitlerle tepkime vermez. Ama nitrik asit yükseltgen bir asittir: H₂ değil, kahverengi NO₂ gazı açığa çıkar.`,
+        uyari:true};
+    }
+    if(kod === "Au"){
+      hazne.metaller[kod] = (hazne.metaller[kod]||0) + mol;
+      return {denklem:"Au(k) + asit → tepkime yok",
+        aciklama:"Altın tek başına hiçbir asitle tepkime vermez. Yalnızca kral suyu (3 HCl : 1 HNO₃) altını çözer.",uyari:false};
+    }
+    hazne.metaller[kod] = (hazne.metaller[kod]||0) + mol;
+    return {denklem:`${m.f}(k) + ${MADDE[asitKod].f}(suda) → tepkime yok`,
+      aciklama:`${m.ad} etkinlik sırasında hidrojenin altındadır; asitten hidrojen gazı açığa çıkaramaz.`,uyari:false};
+  }
 
-            document.getElementById('ph-val').innerText = mixedPh.toFixed(2);
-            document.getElementById('temp-val').innerText = maxTemp.toFixed(2) + " K";
-        }
+  // etkin metal + asit → tuz + H₂
+  const tuketilenH = Math.min(hazne.nH, mol * m.deger);
+  hazne.nH -= tuketilenH;
+  hazne.gaz = "H2";
+  hazne.sicaklik += 18*mol*10;
+  kabarcikPatlamasi(kod === "Zn" || kod === "Fe" ? 30 : 55);
+  ses(200,.25,"square");
+  return {
+    denklem:denklemMetalAsit(kod, asitKod),
+    aciklama:`${m.ad} asitle tepkime verdi ve hidrojen gazı açığa çıktı. Kabarcıklar H₂'dir. ${tuketilenH.toFixed(3)} mol H⁺ harcandı.`,
+    uyari:false
+  };
+}
 
-        function clearBeaker() {
-            beakerContents = []; mixedPh = 7.0; maxTemp = 298.15;
-            activeIndicators = { litmus: false }; hasPrecipitate = false;
-            particles = []; bubbles = []; liquidDrops = []; targetLiquidLevel = 0;
-            updateMonitor("Reaktif bekleniyor... TEPKİME YOK");
-            document.getElementById('ph-val').innerText = "7.00";
-            document.getElementById('temp-val').innerText = "298.15 K";
-            playBeepSound(180, 0.12, "sine");
-        }
-        animate();
-    </script>
+/* ---- amfoter metal + kuvvetli baz ---- */
+function amfoterTepkime(kod, mol){
+  hazne.gaz = "H2";
+  hazne.nOH = Math.max(0, hazne.nOH - mol);
+  hazne.sicaklik += 15*mol*10;
+  kabarcikPatlamasi(45);
+  return {
+    denklem:"2Al(k) + 2NaOH(suda) + 6H₂O(s) → 2Na[Al(OH)₄](suda) + 3H₂(g)",
+    aciklama:"Alüminyum amfoterdir: hem asitle hem kuvvetli bazla tepkime verir. Burada bazla tepkimeye girip hidrojen gazı açığa çıkardı.",
+    uyari:false
+  };
+}
+
+/* ---- nötrleşme ---- */
+function notrlesme(){
+  const ort = Math.min(hazne.nH, hazne.nOH);
+  hazne.nH -= ort; hazne.nOH -= ort;
+  hazne.sicaklik += 57.3 * ort * 2;   // nötrleşme ısısı ~57 kJ/mol
+  return {
+    denklem:"H⁺(suda) + OH⁻(suda) → H₂O(s)",
+    aciklama:`Nötrleşme oldu: ${ort.toFixed(3)} mol H⁺ ile OH⁻ birleşti, ortam ısındı.`
+  };
+}
+
+/* =======================================================================
+   4) BELİRTEÇ RENKLERİ
+   ======================================================================= */
+function belirtecRengi(pH){
+  if(pH === null || belirtec === "yok") return null;
+  if(belirtec === "turnusol")
+    return pH < 5.5 ? {t:"rgba(232,60,60,.62)",b:"rgba(130,12,12,.78)",ad:"kırmızı"}
+         : pH > 8.5 ? {t:"rgba(46,80,232,.62)",b:"rgba(14,25,133,.78)",ad:"mavi"}
+                    : {t:"rgba(150,120,180,.5)",b:"rgba(70,50,110,.7)",ad:"mor"};
+  if(belirtec === "fenolftalein")
+    return pH < 8.2 ? {t:"rgba(225,232,240,.30)",b:"rgba(120,130,145,.55)",ad:"renksiz"}
+                    : {t:"rgba(233,74,168,.62)",b:"rgba(120,20,80,.78)",ad:"pembe"};
+  if(belirtec === "metiloranj")
+    return pH < 3.1 ? {t:"rgba(226,60,40,.62)",b:"rgba(120,20,10,.78)",ad:"kırmızı"}
+         : pH > 4.4 ? {t:"rgba(245,170,40,.62)",b:"rgba(150,90,10,.78)",ad:"sarı"}
+                    : {t:"rgba(240,120,40,.62)",b:"rgba(140,60,10,.78)",ad:"turuncu"};
+  return null;
+}
+
+/* =======================================================================
+   5) TUVAL / ÇİZİM
+   ======================================================================= */
+const tuval = document.getElementById("tuval");
+const ctx = tuval.getContext("2d");
+let sivi = 0, hedefSivi = 0, dalga = 0;
+const kabarciklar = [], kivilcimlar = [], damlalar = [];
+
+const PALET = {
+  su:{t:"rgba(0,180,216,.35)",b:"rgba(3,4,94,.6)"},
+  cu:{t:"rgba(0,160,220,.5)",b:"rgba(0,50,130,.75)"},
+  fe:{t:"rgba(200,110,10,.5)",b:"rgba(90,45,0,.75)"},
+  varsayilan:{t:"rgba(215,220,228,.35)",b:"rgba(95,105,120,.6)"}
+};
+
+function damlaAt(renk){ damlalar.push({x:300+(Math.random()*18-9), y:15, r:renk}); }
+function kabarcikPatlamasi(n){ for(let i=0;i<n;i++) kabarciklar.push(yeniKabarcik()); }
+function yeniKabarcik(){
+  return {x:Math.random()*200+200, y:470, r:Math.random()*2.4+.8,
+          vy:-(Math.random()*1.4+.5), s:Math.random()*100};
+}
+function patlat(renk, n){
+  const yuzey = 470 - 350*hedefSivi;
+  for(let i=0;i<n;i++)
+    kivilcimlar.push({x:300,y:yuzey,vx:(Math.random()-.5)*14,vy:(Math.random()-.9)*15,
+                      r:Math.random()*3.4+1.2,om:1,az:Math.random()*.025+.018,renk});
+}
+
+let sesCtx = null;
+function ses(frk, sure, tip="sine"){
+  if(!sesCtx) return;
+  try{
+    const o = sesCtx.createOscillator(), g = sesCtx.createGain();
+    o.type = tip; o.frequency.setValueAtTime(frk, sesCtx.currentTime);
+    g.gain.setValueAtTime(.12, sesCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, sesCtx.currentTime + sure);
+    o.connect(g); g.connect(sesCtx.destination);
+    o.start(); o.stop(sesCtx.currentTime + sure);
+  }catch(e){}
+}
+
+function ciz(){
+  ctx.clearRect(0,0,tuval.width,tuval.height);
+  dalga += .07;
+
+  /* --- ısı yönetimi --- */
+  if(bekAcik){
+    hazne.sicaklik = Math.min(hazne.sicaklik + .55, 1200);
+  } else if(hazne.sicaklik > 298.15){
+    hazne.sicaklik = Math.max(hazne.sicaklik - .16, 298.15);
+  }
+
+  /* kaynama */
+  hazne.kaynama = hazne.hacim > 0 && hazne.sicaklik >= 373.15;
+  if(hazne.kaynama && bekAcik){
+    if(!kapakKapali){
+      hazne.hacim = Math.max(0, hazne.hacim - .05);
+      hazne.sicaklik = Math.min(hazne.sicaklik, 375);
+      if(Math.random() < .5) kabarciklar.push(yeniKabarcik());
+      if(hazne.hacim === 0){
+        bekAcik = false; dugmeleriYaz();
+        ekraniYaz("Çözelti tamamen buharlaştı","Suyun tamamı buharlaştı, beherde yalnızca katı kalıntı kaldı.",true);
+      }
+    } else {
+      hazne.basinc = Math.min(hazne.basinc + .004, 4);
+      if(hazne.basinc > 3.4){
+        kapakKapali = false; hazne.basinc = 1; dugmeleriYaz();
+        patlat("#ffdd55", 60); ses(90,.5,"sawtooth");
+        ekraniYaz("⚠️ Kapak basınçla fırladı","Kapalı kapta kaynayan sıvının buharı basıncı artırdı. Gerçek laboratuvarda ısıtılan kap asla tam kapatılmaz.",true);
+      }
+    }
+  } else if(hazne.basinc > 1){
+    hazne.basinc = Math.max(1, hazne.basinc - .01);
+  }
+
+  /* --- sıvı seviyesi --- */
+  hedefSivi = Math.min(.9, hazne.hacim/220);
+  if(sivi < hedefSivi) sivi = Math.min(hedefSivi, sivi + .012);
+  if(sivi > hedefSivi) sivi = Math.max(hedefSivi, sivi - .012);
+
+  const bX=180, bY=110, bW=240, bH=360, bR=20;
+  const yuzey = (bY+bH) - bH*sivi;
+
+  /* --- damlalar --- */
+  for(let i=damlalar.length-1;i>=0;i--){
+    const d = damlalar[i];
+    d.y += 11;
+    if(d.y >= yuzey){ damlalar.splice(i,1); ses(600,.07); continue; }
+    ctx.save(); ctx.strokeStyle=d.r; ctx.lineWidth=3.5; ctx.lineCap="round";
+    ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(d.x,d.y+14); ctx.stroke(); ctx.restore();
+  }
+
+  /* --- sıvı --- */
+  if(sivi > .01){
+    const pH = pHHesapla();
+    const bel = belirtecRengi(pH);
+    let p = PALET.varsayilan;
+    if(bel) p = {t:bel.t, b:bel.b};
+    else if(hazne.metaller.Cu > 0) p = PALET.cu;
+    else if(hazne.metaller.Fe > 0) p = PALET.fe;
+    else if(hazne.nH === 0 && hazne.nOH === 0) p = PALET.su;
+
+    ctx.save();
+    const g = ctx.createLinearGradient(bX,yuzey,bX,bY+bH);
+    g.addColorStop(0,p.t); g.addColorStop(1,p.b);
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.moveTo(bX+4,bY+bH-4); ctx.lineTo(bX+4,yuzey);
+    for(let x=bX+4;x<=bX+bW-4;x++)
+      ctx.lineTo(x, yuzey + Math.sin(x/18 + dalga)*4.5*sivi);
+    ctx.lineTo(bX+bW-4,bY+bH-4); ctx.closePath(); ctx.fill(); ctx.restore();
+
+    /* çökelek */
+    if(hazne.cokelek > 0){
+      ctx.save();
+      ctx.fillStyle = hazne.cokelekAd === "AgCl" ? "rgba(244,244,248,.9)" : "rgba(230,235,240,.8)";
+      ctx.beginPath();
+      ctx.ellipse(bX+bW/2, bY+bH-9, bW/2-9, 6+8*hazne.cokelek, 0, 0, Math.PI*2);
+      ctx.fill(); ctx.restore();
+    }
+
+    if(Math.random() < .06 + (hazne.sicaklik-298)*.0035) kabarciklar.push(yeniKabarcik());
+  }
+
+  /* --- kabarcıklar --- */
+  for(let i=kabarciklar.length-1;i>=0;i--){
+    const k = kabarciklar[i];
+    k.y += k.vy; k.x += Math.sin(k.s/12)*.4; k.s++;
+    const yzy = yuzey + Math.sin(k.x/18 + dalga)*4.5*sivi;
+    if(k.y < yzy+4 || sivi <= .01){ kabarciklar.splice(i,1); continue; }
+    ctx.beginPath(); ctx.arc(k.x,k.y,k.r,0,Math.PI*2);
+    ctx.fillStyle = hazne.gaz === "NO2" ? "rgba(190,120,50,.35)" : "rgba(255,255,255,.20)";
+    ctx.fill();
+  }
+
+  /* --- beher --- */
+  ctx.save();
+  ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.lineWidth=4;
+  ctx.beginPath();
+  ctx.moveTo(bX,bY); ctx.lineTo(bX,bY+bH-bR);
+  ctx.arcTo(bX,bY+bH,bX+bR,bY+bH,bR);
+  ctx.lineTo(bX+bW-bR,bY+bH);
+  ctx.arcTo(bX+bW,bY+bH,bX+bW,bY+bH-bR,bR);
+  ctx.lineTo(bX+bW,bY);
+  ctx.stroke();
+
+  /* ölçek çizgileri */
+  ctx.strokeStyle="rgba(255,255,255,.10)"; ctx.lineWidth=1.5;
+  for(let i=1;i<=4;i++){
+    const y = bY+bH - bH*(i*.2);
+    ctx.beginPath(); ctx.moveTo(bX+bW-26,y); ctx.lineTo(bX+bW-6,y); ctx.stroke();
+  }
+  ctx.restore();
+
+  /* kapak — DÜZELTİLDİ: ctx.stroke() */
+  if(kapakKapali){
+    ctx.save();
+    ctx.strokeStyle = hazne.basinc > 2 ? "#ffcc33" : "#00ffcc";
+    ctx.lineWidth = 6; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(bX-8,bY-2); ctx.lineTo(bX+bW+8,bY-2);
+    ctx.stroke();
+    if(hazne.basinc > 1.4){
+      ctx.font="bold 15px monospace"; ctx.fillStyle="#ffcc33"; ctx.textAlign="center";
+      ctx.fillText(hazne.basinc.toFixed(1)+" atm", bX+bW/2, bY-16);
+    }
+    ctx.restore();
+  }
+
+  /* bek alevi */
+  if(bekAcik){
+    ctx.save(); ctx.shadowBlur=22; ctx.shadowColor="#ff5533";
+    ctx.fillStyle="rgba(255,85,51,.32)";
+    ctx.fillRect(bX+18, bY+bH+5, bW-36, 14);
+    for(let i=0;i<7;i++){
+      const fx = bX+30 + i*(bW-60)/6;
+      const h = 16 + Math.sin(dalga*3+i)*7;
+      ctx.beginPath(); ctx.moveTo(fx-6,bY+bH+5);
+      ctx.quadraticCurveTo(fx, bY+bH+5-h, fx+6, bY+bH+5);
+      ctx.fillStyle="rgba(255,150,60,.5)"; ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  /* kıvılcımlar — renk ve sönme artık çalışıyor */
+  for(let i=kivilcimlar.length-1;i>=0;i--){
+    const s = kivilcimlar[i];
+    s.x+=s.vx; s.y+=s.vy; s.vy+=.3; s.om-=s.az;
+    if(s.om<=0){ kivilcimlar.splice(i,1); continue; }
+    ctx.save(); ctx.globalAlpha=Math.max(0,s.om);
+    ctx.shadowBlur=10; ctx.shadowColor=s.renk;
+    ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=s.renk; ctx.fill(); ctx.restore();
+  }
+
+  gostergeleriYaz();
+  requestAnimationFrame(ciz);
+}
+
+/* =======================================================================
+   6) ARAYÜZ
+   ======================================================================= */
+const $ = id => document.getElementById(id);
+
+function gostergeleriYaz(){
+  const pH = pHHesapla();
+  $("ph-deger").textContent = pH === null ? "—" : pH.toFixed(2);
+  $("sicaklik-deger").textContent = Math.round(hazne.sicaklik) + " K";
+  $("hacim-deger").textContent = Math.round(hazne.hacim) + " mL";
+}
+
+function ekraniYaz(denklem, aciklama, uyari){
+  const d = $("denklem");
+  d.textContent = denklem;
+  d.className = uyari ? "uyari" : "";
+  $("aciklama").textContent = aciklama;
+}
+
+function kayitEkle(denklem, aciklama){
+  const pH = pHHesapla();
+  kayitlar.push({
+    zaman:new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit",second:"2-digit"}),
+    denklem, aciklama,
+    pH: pH === null ? "—" : pH.toFixed(2),
+    sicaklik: Math.round(hazne.sicaklik)
+  });
+}
+
+function miktarSecenekleri(){
+  const kod = $("madde").value;
+  const t = MADDE[kod].tur;
+  const sivi = (t === "su" || t === "asit" || t === "baz");
+  const dizi = sivi ? MIKTAR_SIVI : MIKTAR_KATI;
+  const birim = sivi ? "mL" : "g";
+  $("miktar").innerHTML = dizi.map((v,i)=>
+    `<option value="${v}"${i===1?" selected":""}>${v} ${birim}</option>`).join("");
+}
+
+function dugmeleriYaz(){
+  const k = $("btn-kapak"), b = $("btn-bek");
+  k.className = "btn-arac" + (kapakKapali ? " acik-kapak" : "");
+  k.textContent = kapakKapali ? "🔒 Kapak kapalı" : "🔓 Kapak açık";
+  b.className = "btn-arac" + (bekAcik ? " acik-bek" : "");
+  b.textContent = bekAcik ? "🔥 Bek açık" : "🔥 Bek kapalı";
+}
+
+function kayitlariGoster(){
+  const liste = $("kayit-liste");
+  $("kayit-sayi").textContent = kayitlar.length + " kayıt";
+  liste.innerHTML = kayitlar.length === 0
+    ? '<div class="kayit">Henüz gözlem yok. Behere madde ekleyerek başla.</div>'
+    : kayitlar.map(k =>
+        `<div class="kayit"><b>${k.zaman} · pH ${k.pH} · ${k.sicaklik} K</b>
+         <div class="dnk">${k.denklem}</div>${k.aciklama}</div>`).join("");
+  $("kayit-katman").classList.add("acik");
+}
+
+/* ---- olaylar ---- */
+$("btn-baslat").addEventListener("click", ()=>{
+  try{ sesCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+  const g = $("giris");
+  g.classList.add("kapanan");
+  setTimeout(()=>{ g.remove(); ses(523.25,.15,"triangle"); }, 450);
+});
+$("madde").addEventListener("change", miktarSecenekleri);
+$("btn-ekle").addEventListener("click", ()=> ekle($("madde").value, parseFloat($("miktar").value)));
+$("belirtec").addEventListener("change", e=>{
+  belirtec = e.target.value;
+  const pH = pHHesapla();
+  const b = belirtecRengi(pH);
+  if(belirtec === "yok") ekraniYaz("Belirteç çıkarıldı","Çözelti kendi rengine döndü.",false);
+  else if(pH === null) ekraniYaz(`${e.target.selectedOptions[0].text} eklendi`,"Renk görmek için önce behere sıvı ekle.",false);
+  else ekraniYaz(`${e.target.selectedOptions[0].text} · ${b.ad}`,
+       `pH ${pH.toFixed(2)} olan çözeltide belirteç ${b.ad} renk aldı.`,false);
+});
+$("btn-kapak").addEventListener("click", ()=>{ kapakKapali=!kapakKapali; ses(400,.05); dugmeleriYaz(); });
+$("btn-bek").addEventListener("click", ()=>{ bekAcik=!bekAcik; ses(bekAcik?700:300,.08,"triangle"); dugmeleriYaz(); });
+$("btn-temizle").addEventListener("click", ()=>{
+  sifirla(); dugmeleriYaz(); gostergeleriYaz();
+  ekraniYaz("Reaktif bekleniyor","Beher boşaltıldı. Behere önce su ekleyerek başla.",false);
+  ses(180,.12);
+});
+$("btn-kayit").addEventListener("click", kayitlariGoster);
+$("btn-kapat").addEventListener("click", ()=> $("kayit-katman").classList.remove("acik"));
+$("btn-yazdir").addEventListener("click", ()=> window.print());
+
+/* ---- başlat ---- */
+sifirla();
+belirtec = "yok";
+miktarSecenekleri();
+dugmeleriYaz();
+gostergeleriYaz();
+ciz();
+</script>
 </body>
 </html>
